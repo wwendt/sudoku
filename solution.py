@@ -34,6 +34,13 @@ def assign_value(values, box, value):
 
 def naked_twins(values):
 
+     #This is my search function that will identify naked twins
+   values = search(values)
+    for value in values:
+        if len(values[box] == 2) and values(a) == values(b)
+           return values
+
+    #this is my eliminate function, where I try to eliminate all of the naked twins...
     nakedTwins = [box for box in values.keys() if len(values[box]) == 2]
 
     for box in nakedTwins:
@@ -53,11 +60,7 @@ def naked_twins(values):
     #twins = [box for box in values.keys() if values[box] == values[box]]
     #for box in twins:
 
-    #This is my search function that will identify naked twins
-   # values = search(values)
-    #for value in values:
-     #   if len(values[box] == 2) and values(a) == values(b)
-      #      return values
+   
 
     #This is my elimination function, that will eliminate naked twins from its peers
 """
