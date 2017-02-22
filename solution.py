@@ -35,14 +35,13 @@ def assign_value(values, box, value):
 def naked_twins(values):
 
      #This is my search function that will identify naked twins
-   values = search(values)
-    for value in values:
-        if len(values[box] == 2) and values(a) == values(b)
-           return values
-
+    values = search(values)
+    if all(len(values[s]) == 1 for s in boxes):
+        return values
+        #solved
+    
     #this is my eliminate function, where I try to eliminate all of the naked twins...
     nakedTwins = [box for box in values.keys() if len(values[box]) == 2]
-
     for box in nakedTwins:
         digit = values[box]
         for peer in peers[box]:
