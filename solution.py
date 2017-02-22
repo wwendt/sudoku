@@ -12,6 +12,9 @@ def cross(A, B):
 
 boxes = cross(rows, cols)
 
+diag1 = [a[0]+a[1] for a in zip(rows, cols)]
+diag2 = [a[0]+a[1] for a in zip(rows, cols[::-1])]
+
 row_units = [cross(r, cols) for r in rows]
 column_units = [cross(rows, c) for c in cols]
 square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
@@ -30,6 +33,13 @@ def assign_value(values, box, value):
     return values
 
 def naked_twins(values):
+
+    nakedTwins = [box for box in values.keys() if len(values[box]) == 2]
+
+    for box in nakedTwins:
+        digit = values[box]
+        for peer in peers[box]:
+            values[peer] = values[peer].replace(digit,'')
     """Eliminate values using the naked twins strategy.
     Args:
         values(dict): a dictionary of the form {'box_name': '123456789', ...}
@@ -42,9 +52,27 @@ def naked_twins(values):
     # Eliminate the naked twins as possibilities for their peers
     #twins = [box for box in values.keys() if values[box] == values[box]]
     #for box in twins:
+
+    #This is my search function that will identify naked twins
+   # values = search(values)
+    #for value in values:
+     #   if len(values[box] == 2) and values(a) == values(b)
+      #      return values
+
+    #This is my elimination function, that will eliminate naked twins from its peers
+"""
+    for unit in unitlist:
+        for digits in '123456789'
+        dplaces1 = [box for box in unit if digit in values[box]]
+        dplaces2 = [box for box in unit if digit in values[box]]
+        if dplaces1 == dplaces2:
+            values[dplaces[0,1]] = digits
+    return values
+
     pass
+"""
 
-
+    
     
 
 def grid_values(grid):
@@ -85,7 +113,8 @@ def display(values):
 def eliminate(values):
     solved_values = [box for box in values.keys() if len(values[box]) == 1]
     for box in solved_values:
-        digit = values[box]
+        #digit = values[box]
+        assign_value(values, box, digit)
         for peer in peers[box]:
             values[peer] = values[peer].replace(digit,'')
     return values
@@ -137,9 +166,14 @@ def solve(grid):
         The dictionary representation of the final sudoku grid. False if no solution exists.
     """
 
+    reduce_puzzle(grid)
+    only_choice(grid)
+    eliminate(grid)
+    naked_twins(grid)
+
 if __name__ == '__main__':
-    diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
-    display(solve(diag_sudoku_grid))
+   # diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
+    #display(solve(diag_sudoku_grid))
 
     try:
         from visualize import visualize_assignments
