@@ -22,6 +22,8 @@ unitlist = row_units + column_units + square_units
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
 
+
+
 def assign_value(values, box, value):
     """
     Please use this function to update your values dictionary!
@@ -33,7 +35,14 @@ def assign_value(values, box, value):
     return values
 
 
+def naked_twins(values):
 
+    for unit in unitlist:
+        for digit in '123456789':
+            nakedTwins = [box for box in unit if digit in values[box]]
+            if len(nakedTwins) == 2:
+                    values[nakedTwins[0]] = digit
+    return values
     
     
 
@@ -88,6 +97,7 @@ def only_choice(values):
             if len(dplaces) == 1:
                 values[dplaces[0]] = digit
     return values
+   
 
 def reduce_puzzle(values):
     solved_values = [box for box in values.keys() if len(values[box]) == 1]
@@ -118,22 +128,28 @@ def search(values):
         if attempt:
             return attempt
 
-def naked_twins(values):
 
-     #This is my search function that will identify naked twins
-    values = search(values)
-    if all(len(values[s]) == 1 for s in boxes):
-        return values
-   # if all(len(values[s]) == 1 for s in boxes):
-    #    return values
-        #solved
-    
-    #this is my eliminate function, where I try to eliminate all of the naked twins...
-    nakedTwins = [box for box in values.keys() if len(values[box]) == 2]
+    """        
     for box in nakedTwins:
         digit = values[box]
         for peer in peers[box]:
             values[peer] = values[peer].replace(digit,'')
+    return values
+    """
+     #This is my search function that will identify naked twins
+    #values = search(values)
+    #if all(len(values[s]) == 1 for s in boxes):
+     #   return values
+   # if all(len(values[s]) == 1 for s in boxes):
+    #    return values
+        #solved
+    
+    
+    #this is my eliminate function, where I try to eliminate all of the naked twins...
+    
+    
+
+    
     """Eliminate values using the naked twins strategy.
     Args:
         values(dict): a dictionary of the form {'box_name': '123456789', ...}
