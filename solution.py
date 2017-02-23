@@ -32,47 +32,7 @@ def assign_value(values, box, value):
         assignments.append(values.copy())
     return values
 
-def naked_twins(values):
 
-     #This is my search function that will identify naked twins
-    values = search(values)
-    if all(len(values[s]) == 1 for s in boxes):
-        return values
-        #solved
-    
-    #this is my eliminate function, where I try to eliminate all of the naked twins...
-    nakedTwins = [box for box in values.keys() if len(values[box]) == 2]
-    for box in nakedTwins:
-        digit = values[box]
-        for peer in peers[box]:
-            values[peer] = values[peer].replace(digit,'')
-    """Eliminate values using the naked twins strategy.
-    Args:
-        values(dict): a dictionary of the form {'box_name': '123456789', ...}
-
-    Returns:
-        the values dictionary with the naked twins eliminated from peers.
-    """
-
-    # Find all instances of naked twins
-    # Eliminate the naked twins as possibilities for their peers
-    #twins = [box for box in values.keys() if values[box] == values[box]]
-    #for box in twins:
-
-   
-
-    #This is my elimination function, that will eliminate naked twins from its peers
-"""
-    for unit in unitlist:
-        for digits in '123456789'
-        dplaces1 = [box for box in unit if digit in values[box]]
-        dplaces2 = [box for box in unit if digit in values[box]]
-        if dplaces1 == dplaces2:
-            values[dplaces[0,1]] = digits
-    return values
-
-    pass
-"""
 
     
     
@@ -115,8 +75,8 @@ def display(values):
 def eliminate(values):
     solved_values = [box for box in values.keys() if len(values[box]) == 1]
     for box in solved_values:
-        #digit = values[box]
-        assign_value(values, box, digit)
+        digit = values[box]
+        
         for peer in peers[box]:
             values[peer] = values[peer].replace(digit,'')
     return values
@@ -157,6 +117,52 @@ def search(values):
         attempt = search(new_sudoku)
         if attempt:
             return attempt
+
+def naked_twins(values):
+
+     #This is my search function that will identify naked twins
+    values = search(values)
+    if all(len(values[s]) == 1 for s in boxes):
+        return values
+   # if all(len(values[s]) == 1 for s in boxes):
+    #    return values
+        #solved
+    
+    #this is my eliminate function, where I try to eliminate all of the naked twins...
+    nakedTwins = [box for box in values.keys() if len(values[box]) == 2]
+    for box in nakedTwins:
+        digit = values[box]
+        for peer in peers[box]:
+            values[peer] = values[peer].replace(digit,'')
+    """Eliminate values using the naked twins strategy.
+    Args:
+        values(dict): a dictionary of the form {'box_name': '123456789', ...}
+
+    Returns:
+        the values dictionary with the naked twins eliminated from peers.
+    """
+
+    # Find all instances of naked twins
+    # Eliminate the naked twins as possibilities for their peers
+    #twins = [box for box in values.keys() if values[box] == values[box]]
+    #for box in twins:
+
+   
+
+    #This is my elimination function, that will eliminate naked twins from its peers
+"""
+    for unit in unitlist:
+        for digits in '123456789'
+        dplaces1 = [box for box in unit if digit in values[box]]
+        dplaces2 = [box for box in unit if digit in values[box]]
+        if dplaces1 == dplaces2:
+            values[dplaces[0,1]] = digits
+    return values
+
+    pass
+"""
+
+
 
 def solve(grid):
     """
