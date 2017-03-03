@@ -35,15 +35,16 @@ def assign_value(values, box, value):
     return values
 
 
-def naked_twins(values):
 
-    for unit in unitlist:
-        for digit in '123456789':
-            nakedTwins = [box for box in unit if digit in values[box]]
-            if len(nakedTwins) == 2:
-                    values[nakedTwins[0]] = digit
-    return values
-    
+def naked_twins(values):
+    nakedTwins = [box for box in units if len(values[box]) == 2]
+
+    for box in nakedTwins:
+        digit = values[box]
+        #split = digit.split()
+        for peer in peers[box]:
+            values[peer] = values[peer].replace(digit, '')
+    return values    
     
 
 def grid_values(grid):
@@ -97,6 +98,8 @@ def only_choice(values):
             if len(dplaces) == 1:
                 values[dplaces[0]] = digit
     return values
+
+#only_choice('A1')
    
 
 def reduce_puzzle(values):
@@ -128,14 +131,8 @@ def search(values):
         if attempt:
             return attempt
 
+#def naked_twins(values):
 
-    """        
-    for box in nakedTwins:
-        digit = values[box]
-        for peer in peers[box]:
-            values[peer] = values[peer].replace(digit,'')
-    return values
-    """
      #This is my search function that will identify naked twins
     #values = search(values)
     #if all(len(values[s]) == 1 for s in boxes):
@@ -146,10 +143,18 @@ def search(values):
     
     
     #this is my eliminate function, where I try to eliminate all of the naked twins...
-    
-    
+    """
+    for unit in unitlist:
+        for digit in '123456789':
 
-    
+    nakedTwins = [box for box in values.keys() if len(values[box]) == 2]
+    for box in nakedTwins:
+        digit = values[box]
+        for peer in peers[box]:
+            values[peer] = values[peer].replace(digit,'')
+    return values
+
+    """
     """Eliminate values using the naked twins strategy.
     Args:
         values(dict): a dictionary of the form {'box_name': '123456789', ...}
