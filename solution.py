@@ -86,10 +86,11 @@ def naked_twins(values):
     nakedTwins = [box for box in values.keys() if len(values[box]) == 2]
 
     for box in nakedTwins:
-        digit = values[box]
+        digits = values[box]
         #a, b = digit.split()
         for peer in peers[box]:
-            values[peer] = values[peer].replace(digit, '')
+            for digit in digits:    
+                values[peer] = values[peer].replace(digit, '')
     return values    
     
 
