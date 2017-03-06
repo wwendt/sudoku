@@ -38,6 +38,8 @@ boxes = cross(rows, cols)
 diag1 = [a[0]+a[1] for a in zip(rows, cols)]
 diag2 = [a[0]+a[1] for a in zip(rows, cols[::-1])]
 
+#nakedTwins = [box for box in values.keys() if len(values[box]) == 2]
+
 row_units = [cross(r, cols) for r in rows]
 column_units = [cross(rows, c) for c in cols]
 square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
@@ -83,17 +85,41 @@ def assign_value(values, box, value):
 
 
 def naked_twins(values):
+    """
+    #assigns to variable naked twins the box in values key if the length of that box is two
     nakedTwins = [box for box in values.keys() if len(values[box]) == 2]
 
     for box in nakedTwins:
         digits = values[box]
         #a, b = digit.split()
-        for peer in peers[box]:
+        for unit in unitlist:
             for digit in digits:    
-                values[peer] = values[peer].replace(digit, '')
+                values[box] = values[box].replace(digit, '')
     return values    
+    """
+    #for box in all of the values
+    for box in values:
+        #if the length of a value in a box is 2
+        if len(values[box]) == 2:
+            #for a unit in a list of units
+            for unit in unitlist:
+                #for all the peers of this box
+                for peer in peers[box]:
+                    #if the value of the peers is equal to the value of the box
+                    if values[peer] == values[box]:
+                        #assign the value of the peer to the variable digits
+                        digits = values[peer]
+                        #for another peer of this box
+                        for other_peer in peers[box]:
+                            #if the length of the values of the other peer is greater than one
+                            #and the other peer doesn't equal the original peer
+                            if (len(values[other_peer]) > 1) and (other_peer != peer):
+                                #the first value of the other peer are replaced
+                                values[other_peer] = values[other_peer].replace(digits[0],'')
+                                #the second value of the other peer are replaced
+                                values[other_peer] = values[other_peer].replace(digits[1], '')
+    return values
     
-
 def grid_values(grid):
     """
     Convert grid into a dict of {square: char} with '123456789' for empties.
