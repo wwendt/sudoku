@@ -38,6 +38,8 @@ boxes = cross(rows, cols)
 diag1 = [a[0]+a[1] for a in zip(rows, cols)]
 diag2 = [a[0]+a[1] for a in zip(rows, cols[::-1])]
 
+diagonal_units = [[rows[i] + cols[i] for i in range(len(rows))],[rows[i]+cols[-i-1] for i in range(len(rows))]]
+
 #nakedTwins = [box for box in values.keys() if len(values[box]) == 2]
 
 row_units = [cross(r, cols) for r in rows]
@@ -102,23 +104,23 @@ def naked_twins(values):
         #if the length of a value in a box is 2
         if len(values[box]) == 2:
             #for a unit in a list of units
-            for unit in unitlist:
-                #for all the peers of this box
-                for peer in peers[box]:
-                    #if the value of the peers is equal to the value of the box
-                    if values[peer] == values[box]:
-                        #assign the value of the peer to the variable digits
-                        digits = values[peer]
+           # for unit in unitlist:
+           for unit in unitlist:
+                for unit in units[box]:
+                    #if the value of the unit is equal to the value of the box
+                    if values[unit] == values[box]:
+                        #assign the value of the unit to the variable digits
+                        digits = values[unit]
                         #for another peer of this box
-                        for diff_peer in peers[box]:
+                        for diff_unit in units[box]:
                             #if the length of the values of the other peer is greater than one
                             #and the other peer doesn't equal the original peer
-                            if (len(values[diff_peer]) > 1) and (diff_peer != peer):
+                            if (len(values[diff_unit]) > 1) and (diff_unit != unit):
                                 #the first value of the other peer are replaced
-                                values[diff_peer] = values[diff_peer].replace(digits[0],'')
+                                values[diff_unit] = values[diff_unit].replace(digits[0],'')
                                 
                                 #the second value of the other peer are replaced
-                                values[diff_peer] = values[diff_peer].replace(digits[1], '')
+                                values[diff_unit] = values[diff_unit].replace(digits[1], '')
                                 
     return values
     
@@ -270,10 +272,9 @@ def solve(grid):
         The dictionary representation of the final sudoku grid. False if no solution exists.
     """
 
-    reduce_puzzle(grid)
-    only_choice(grid)
-    eliminate(grid)
-    naked_twins(grid)
+    values = grid_values(grid)
+    values = search(values)
+    return values
 
 if __name__ == '__main__':
    # diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
