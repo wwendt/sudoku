@@ -110,14 +110,16 @@ def naked_twins(values):
                         #assign the value of the peer to the variable digits
                         digits = values[peer]
                         #for another peer of this box
-                        for other_peer in peers[box]:
+                        for diff_peer in peers[box]:
                             #if the length of the values of the other peer is greater than one
                             #and the other peer doesn't equal the original peer
-                            if (len(values[other_peer]) > 1) and (other_peer != peer):
+                            if (len(values[diff_peer]) > 1) and (diff_peer != peer):
                                 #the first value of the other peer are replaced
-                                values[other_peer] = values[other_peer].replace(digits[0],'')
+                                values[diff_peer] = values[diff_peer].replace(digits[0],'')
+                                
                                 #the second value of the other peer are replaced
-                                values[other_peer] = values[other_peer].replace(digits[1], '')
+                                values[diff_peer] = values[diff_peer].replace(digits[1], '')
+                                
     return values
     
 def grid_values(grid):
