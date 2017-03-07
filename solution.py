@@ -108,19 +108,21 @@ def naked_twins(values):
            for unit in unitlist:
                 for unit in units[box]:
                     #if the value of the unit is equal to the value of the box
-                    if values[unit] == values[box]:
+                    for peer in peers[box]:
+
+                        if values[peer] == values[box]:
                         #assign the value of the unit to the variable digits
-                        digits = values[unit]
+                            digits = values[peer]
                         #for another peer of this box
-                        for diff_unit in units[box]:
+                            for diff_peer in peers[box]:
                             #if the length of the values of the other peer is greater than one
                             #and the other peer doesn't equal the original peer
-                            if (len(values[diff_unit]) > 1) and (diff_unit != unit):
+                                if (len(values[diff_peer]) > 1) and (diff_peer != peer):
                                 #the first value of the other peer are replaced
-                                values[diff_unit] = values[diff_unit].replace(digits[0],'')
+                                    values[diff_peer] = values[diff_peer].replace(digits[0],'')
                                 
                                 #the second value of the other peer are replaced
-                                values[diff_unit] = values[diff_unit].replace(digits[1], '')
+                                    values[diff_peer] = values[diff_peer].replace(digits[1], '')
                                 
     return values
     
