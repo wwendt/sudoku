@@ -35,8 +35,8 @@ def cross(A, B):
 
 boxes = cross(rows, cols)
 
-diag1 = [a[0]+a[1] for a in zip(rows, cols)]
-diag2 = [a[0]+a[1] for a in zip(rows, cols[::-1])]
+#diag1 = [a[0]+a[1] for a in zip(rows, cols)]
+#diag2 = [a[0]+a[1] for a in zip(rows, cols[::-1])]
 
 diagonal_units = [[rows[i] + cols[i] for i in range(len(rows))],[rows[i]+cols[-i-1] for i in range(len(rows))]]
 
@@ -45,7 +45,7 @@ diagonal_units = [[rows[i] + cols[i] for i in range(len(rows))],[rows[i]+cols[-i
 row_units = [cross(r, cols) for r in rows]
 column_units = [cross(rows, c) for c in cols]
 square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
-unitlist = row_units + column_units + square_units
+unitlist = row_units + column_units + square_units + diagonal_units
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
 
@@ -99,6 +99,7 @@ def naked_twins(values):
                 values[box] = values[box].replace(digit, '')
     return values    
     """
+    """
     #for box in all of the values
     for box in values:
         #if the length of a value in a box is 2
@@ -109,23 +110,35 @@ def naked_twins(values):
             #for all the boxes in a unit
                 for box1 in unit:
                     #if the value of all the boxes is equal to the value of the box
-
                         if values[box1] == values[box]:
-                        #assign the value of the peer to the variable digits
+                        #assign the value of the boxes to the variable digits
                             digits = values[box1]
-                        #for another peer of this box
+                        #for another u of this box
                             for diff_box in unit:
                             #if the length of the values of the other peer is greater than one
                             #and the other peer doesn't equal the original peer
                                 if (len(values[diff_box]) > 1) and (diff_box != box1):
                                 #the first value of the other peer are replaced
-                                    values[diff_box] = values[diff_box].replace(digits[0],'')
+                                    values1 = values[diff_box].replace(digits[1],'')
+                                    values = assign_value(values, diff_box, values1)
                                 
                                 #the second value of the other peer are replaced
-                                    values[diff_box] = values[diff_box].replace(digits[1], '')
-                                
+                                    values2 = values[diff_box].replace(digits[2], '')
+                                    values = assign_value(values, other_peer, values2)                                
     return values
-    
+    """
+    for unit in unitlist:
+        naked_twins = [[box1, box2] for box1 in unit for box2 in unit if (len(values[box1]) == 2) and (values[box1] == values[box2]) and box1 != box2]
+        for twin in naked_twins:
+            naked_twins_digits1 = values[twin[0]]
+            naked_twins_digits2 = values[twin[1]]
+            for box in unit:
+                if box not in twin:
+                    values[box] = values[box].replace(naked_twins_digits1[0], '')
+                    values[box] = values[box].replace(naked_twins_digits2[1], '')
+    return values
+
+
 def grid_values(grid):
     """
     Convert grid into a dict of {square: char} with '123456789' for empties.
