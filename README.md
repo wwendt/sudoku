@@ -3,11 +3,11 @@
 
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?  
-A: *Student should provide answer here*
+A: We use constrain propogation by first defining what the constraints are for naked twins.  i.e. they have a length of two, and they are the same length and they have the same values but they do not have the same key.  You then propogate these constraints throughout the rest of the puzzle and eliminate values that match these parameters.
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
-A: *Student should provide answer here*
+A: You create the constraints to define what a diagonal unit is first.  i.e. you write the code that defines what it is in terms of rows, cols, range, len etc.  Then you run the various methods that will solve the puzzle given a particular input.  You then propogate the various methods throughout the puzzle, and it is solved.
 
 ### Install
 
